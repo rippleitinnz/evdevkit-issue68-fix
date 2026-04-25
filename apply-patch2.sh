@@ -17,8 +17,8 @@
 # ==============================================================================
 
 EVDEVKIT_PATH=${1:-/usr/lib/node_modules/evdevkit}
-CMD_TARGET="$EVDEVKIT_PATH/lib/command-handler.js"
-MGR_TARGET="$EVDEVKIT_PATH/lib/cluster-manager.js"
+CMD_TARGET="$EVDEVKIT_PATH/index.js"
+MGR_TARGET="$EVDEVKIT_PATH/index.js"
 
 echo ""
 echo "============================================================"

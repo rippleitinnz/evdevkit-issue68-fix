@@ -10,8 +10,8 @@
 
 EVDEVKIT_PATH=${1:-/usr/lib/node_modules/evdevkit}
 PATCHES_DIR="$(dirname "$0")"
-CMD_TARGET="$EVDEVKIT_PATH/lib/command-handler.js"
-MGR_TARGET="$EVDEVKIT_PATH/lib/cluster-manager.js"
+CMD_TARGET="$EVDEVKIT_PATH/index.js"
+MGR_TARGET="$EVDEVKIT_PATH/index.js"
 CMD_ORIGINAL="$PATCHES_DIR/command-handler.js.original"
 MGR_ORIGINAL="$PATCHES_DIR/cluster-manager.js.original"
 
