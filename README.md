@@ -92,7 +92,7 @@ Fixes 5 issues in `cluster-manager.js`:
 
 1. `BLACKLIST_SCORE_THRESHOLD` raised from 2 to 3
 2. Modulo bug fixed — `optimalNodes[i % optimalNodes.length]` (removed `curNodeCount` offset)
-3. Hosts sorted by nodes already assigned — fewer nodes get priority
+3. Hosts sorted by instances already assigned — fewer instances get priority
 4. `chunkSize` always set to 1 for correct host tracking
 5. Warning added when duplication is unavoidable
 
@@ -237,7 +237,7 @@ my-project/
 └── manifest.json       ← defines exact host:instance layout
 ```
 
-Example manifest deploying 4 nodes across 3 hosts:
+Example manifest deploying 4 instances across 3 hosts:
 
 ```json
 [
@@ -248,7 +248,7 @@ Example manifest deploying 4 nodes across 3 hosts:
 ```
 
 The cluster size is automatically calculated from the manifest totals — in the
-above example that is 4 nodes. The `cluster-create` size argument is ignored
+above example that is 4 instances. The `cluster-create` size argument is ignored
 in manifest mode.
 
 Full example command:
