@@ -4,10 +4,35 @@ Fix and enhancements for `evdevkit cluster-create` relating to [issue #68](https
 
 ## Background
 
-`cluster-create` contains a modulo bug in `#createClusterChunk` that causes
-multiple nodes to be assigned to the same host when the cluster size exceeds
-the number of optimal hosts. This results in nodes that cannot peer with each
-other, causing weakly-connected or 0-peer consensus failures.
+`cluster-create` contains two bugs in the cluster allocation logic that cause
+multiple nodes to be assigned to the same host, with the third host (and beyond)
+in the hosts file receiving zero nodes regardless of available slots.
+
+**Root cause 1 — chunkSize bug:**
+On the second iteration of `createCluster()`, `chunkSize` is set to `targetSize`
+(e.g. 2) rather than 1. This causes `#getOptimalNodesList` to allocate 2 nodes
+across only the first 2 hosts, meaning the third host never gets a turn.
+
+**Root cause 2 — modulo offset bug:**
+In `#createClusterChunk`, the host selection uses:
+```javascript
+optimalNodes[(curNodeCount + i) % optimalNodes.length]
+```
+The `curNodeCount` offset causes the index to wrap incorrectly, assigning a
+second node back to the first host instead of moving to the next.
+
+Both bugs compound — the result is nodes 2 and 3 both land on host 1, and
+host 3 is never used. This causes weakly-connected or 0-peer consensus failures
+since two nodes on the same host cannot peer with each other.
+
+**Common misconception — price sort is not the cause:**
+The hosts file IS sorted by lease amount in `#getOptimalNodesList`, but only
+when `--evr-limit` is passed. Without that flag, `evrBalance` is `null` and
+the sort never executes. Price plays no role in host selection in normal usage.
+This was incorrectly identified as the root cause in
+[EvernodeXRPL/evernode-sdk#95](https://github.com/EvernodeXRPL/evernode-sdk/issues/95).
+The correct root cause is documented in
+[EvernodeXRPL/ev-devkit#68](https://github.com/EvernodeXRPL/ev-devkit/issues/68).
 
 ## Contents
 
