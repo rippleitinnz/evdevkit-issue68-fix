@@ -61,7 +61,7 @@ content = content.replace(
 // 3 — Sort hosts by assigned instances
 content = content.replace(
     '        preferredHosts = preferredHosts.map(({ address, availableInstances, leaseAmount, nodes }) => ({ address, availableInstances, leaseAmount, nodes }));',
-    '        // Patched: sort by nodes assigned so hosts with fewer nodes get priority (issue #68)\n' +
+    '        // Patched: sort by instances assigned so hosts with fewer instances get priority (issue #68)\n' +
     '        preferredHosts = preferredHosts.map(({ address, availableInstances, leaseAmount, nodes }) => ({ address, availableInstances, leaseAmount, nodes }))\n' +
     '            .sort((a, b) => a.nodes - b.nodes);'
 );
@@ -79,7 +79,7 @@ content = content.replace(
     '            const usedHosts = this.#nodes.map(n => n.host);\n' +
     '            const firstNode = optimalNodes[0];\n' +
     '            if (firstNode && usedHosts.includes(firstNode.address)) {\n' +
-    '                console.warn("Warning: Host " + firstNode.address + " already has a node in this cluster. Add more hosts to your hosts file.");\n' +
+    '                console.warn("Warning: Host " + firstNode.address + " already has an instance in this cluster. Add more hosts to your hosts file.");\n' +
     '            }\n' +
     '            const nodes = await this.#createClusterChunk(chunkSize, optimalNodes);'
 );

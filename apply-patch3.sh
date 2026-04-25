@@ -91,8 +91,8 @@ cmd = cmd.replace(
     "                );\n" +
     "                clusterSpec.size = manifestData.reduce((sum, e) => sum + e.instances, 0);\n" +
     "                manifestMode = true;\n" +
-    "                console.log('Manifest mode: ' + manifestData.length + ' hosts, ' + clusterSpec.size + ' total nodes.');\n" +
-    "                manifestData.forEach(e => console.log('  ' + e.address + ' -> ' + e.instances + ' node(s)'));\n" +
+    "                console.log('Manifest mode: ' + manifestData.length + ' hosts, ' + clusterSpec.size + ' total instances.');\n" +
+    "                manifestData.forEach(e => console.log('  ' + e.address + ' -> ' + e.instances + ' instance(s)'));\n" +
     "                console.log('');\n" +
     "            } catch (err) {\n" +
     "                throw 'Invalid manifest file: ' + err;\n" +
@@ -151,10 +151,10 @@ mgr = mgr.replace(
 
 // 2d — Skip sort in manifest mode
 mgr = mgr.replace(
-    '        // Patched: sort by nodes assigned so hosts with fewer nodes get priority (issue #68)\n' +
+    '        // Patched: sort by instances assigned so hosts with fewer instances get priority (issue #68)\n' +
     '        preferredHosts = preferredHosts.map(({ address, availableInstances, leaseAmount, nodes }) => ({ address, availableInstances, leaseAmount, nodes }))\n' +
     '            .sort((a, b) => a.nodes - b.nodes);',
-    '        // Patched: sort by nodes assigned so hosts with fewer nodes get priority (issue #68)\n' +
+    '        // Patched: sort by instances assigned so hosts with fewer instances get priority (issue #68)\n' +
     '        // Patch3: skip sort in manifest mode — use exact order specified (issue #68)\n' +
     '        preferredHosts = preferredHosts.map(({ address, availableInstances, leaseAmount, nodes }) => ({ address, availableInstances, leaseAmount, nodes }))\n' +
     '            .sort((a, b) => a.nodes - b.nodes);'
