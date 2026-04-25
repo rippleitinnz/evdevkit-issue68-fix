@@ -10,7 +10,7 @@ in the hosts file receiving zero instances regardless of available slots.
 
 **Root cause 1 — chunkSize bug:**
 On the second iteration of `createCluster()`, `chunkSize` is set to `targetSize`
-(e.g. 2) rather than 1. This causes `#getOptimalNodesList` to allocate 2 nodes
+(e.g. 2) rather than 1. This causes `#getOptimalNodesList` to allocate 2 instances
 across only the first 2 hosts, meaning the third host never gets a turn.
 
 **Root cause 2 — modulo offset bug:**
@@ -19,11 +19,11 @@ In `#createClusterChunk`, the host selection uses:
 optimalNodes[(curNodeCount + i) % optimalNodes.length]
 ```
 The `curNodeCount` offset causes the index to wrap incorrectly, assigning a
-second node back to the first host instead of moving to the next.
+second instance back to the first host instead of moving to the next.
 
-Both bugs compound — the result is nodes 2 and 3 both land on host 1, and
+Both bugs compound — the result is instance 2 and 3 both land on host 1, and
 host 3 is never used. This causes weakly-connected or 0-peer consensus failures
-since two nodes on the same host cannot peer with each other.
+since two instances on the same host cannot peer with each other.
 
 **Common misconception — price sort is not the cause:**
 The hosts file IS sorted by lease amount in `#getOptimalNodesList`, but only
