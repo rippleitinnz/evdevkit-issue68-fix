@@ -5,8 +5,8 @@ Fix and enhancements for `evdevkit cluster-create` relating to [issue #68](https
 ## Background
 
 `cluster-create` contains two bugs in the cluster allocation logic that cause
-multiple nodes to be assigned to the same host, with the third host (and beyond)
-in the hosts file receiving zero nodes regardless of available slots.
+multiple instances to be assigned to the same host, with the third host (and beyond)
+in the hosts file receiving zero instances regardless of available slots.
 
 **Root cause 1 — chunkSize bug:**
 On the second iteration of `createCluster()`, `chunkSize` is set to `targetSize`
